@@ -6,7 +6,7 @@ const dgram = require('node:dgram');
 //const readline = require('readline');
 
 const PORT = 3000;
-const HOST = '127.0.0.1';
+const HOST = '0.0.0.0';
 
 const client = dgram.createSocket('udp4');
 const roomId = "room1";
@@ -16,16 +16,16 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname+'/index.html');
 })
 
-// Send join room message
-const msg_join = roomId+" join";
-client.send(msg_join, PORT, HOST, (err) => {
-    if (err) {
-        console.error("Error sending message: ", err);
-    }
-})
-
 // WebSocket connection for real-time communication with the HTML page
 io.on('connection', (socket) => {
+
+    // Send join room message
+    const msg_join = roomId+" join";
+    client.send(msg_join, PORT, HOST, (err) => {
+        if (err) {
+            console.error("Error sending message: ", err);
+        }
+    })
     
     // Send button
     socket.on('chat message', (msg) => {
