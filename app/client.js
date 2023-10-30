@@ -1,8 +1,10 @@
 const dgram = require('node:dgram');
 const readline = require('readline');
 
-const client = dgram.createSocket('udp4');
+const PORT = 3000;
+const HOST = '0.0.0.0';
 
+const client = dgram.createSocket('udp4');
 const roomId = "room1";
 
 // Receive message from another clients through the server
@@ -12,7 +14,7 @@ client.on("message", (msg, _server) => {
 
 // Send join room message
 const msg_join = roomId+" join";
-client.send(msg_join, 3000, 'localhost', (err) => {
+client.send(msg_join, PORT, HOST, (err) => {
     if (err) {
         console.err("Error sending message: ", err);
     }
@@ -32,7 +34,7 @@ function userinput() {
         } else {
             // Send msg
             let msg = roomId+" "+_msg;
-            client.send(msg, 3000, 'localhost', (err) => {
+            client.send(msg, PORT, HOST, (err) => {
                 if (err) {
                     console.err("Error sending message: ", err);
                 }
