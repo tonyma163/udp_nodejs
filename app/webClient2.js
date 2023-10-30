@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
         // Send message to the UDP server
         const message = roomId+" "+msg;
-        client.send(message, PORT,HOST, (err) => {
+        client.send(message, PORT, HOST, (err) => {
             if (err) {
                 console.error("Error sending message: ", err);
             }
