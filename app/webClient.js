@@ -6,7 +6,7 @@ const dgram = require('node:dgram');
 //const readline = require('readline');
 
 const PORT = 3000;
-const HOST = '0.0.0.0';
+const HOST = '127.0.0.1';
 
 const client = dgram.createSocket('udp4');
 const roomId = "room1";
