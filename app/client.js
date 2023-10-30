@@ -18,7 +18,7 @@ client.send(msg_join, 3000, 'localhost', (err) => {
     }
 })
 
-// interface for reading user input
+// Interface for reading user input
 const input = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -43,55 +43,3 @@ function userinput() {
 }
 
 userinput();
-
-/*
-client.connect(3000, 'localhost', async(err) => {
-    while (true) {
-        let msg = prompt("Enter ur message: ");
-        
-        if (msg == "exit") {
-            client.close();
-            break;
-        }
-
-        // send msg
-        client.send(roomId+" "+msg, (err) => {
-            if (err) {
-                console.err("Error sending message: ", err);
-            }
-        })
-    }
-})
-*/
-
-/*
-client.connect(3000, 'localhost', async(err) => {
-    if (err) {
-        console.log('Error connecting to the server: ', err);
-        return;
-    }
-
-    // send msg
-    client.send(roomId+" join", (err) => {
-        if (err) {
-            console.err("Error sending message: ", err);
-        }
-    })
-
-    while (true) {
-        let msg = prompt("Enter ur message: ");
-        
-        if (msg == "exit") {
-            client.close();
-            break;
-        }
-
-        // send msg
-        client.send(roomId+" "+msg, (err) => {
-            if (err) {
-                console.err("Error sending message: ", err);
-            }
-        })
-    }
-})
-*/
