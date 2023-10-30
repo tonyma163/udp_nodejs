@@ -1,6 +1,9 @@
 const dgram = require('node:dgram');
 const server = dgram.createSocket('udp4');
 
+const PORT = 3000;
+const HOST = '127.0.0.1';
+
 const clients = {}; // Store connected clients by room
 
 server.on('error', (err) => {
@@ -48,4 +51,4 @@ server.on('listening', () => {
     console.log(`Server listening on : ${address.address}:${address.port}`);
 })
 
-server.bind(3000);
+server.bind(PORT, HOST);

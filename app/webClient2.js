@@ -5,6 +5,9 @@ const io = require('socket.io')(http);
 const dgram = require('node:dgram');
 //const readline = require('readline');
 
+const PORT = 3000;
+const HOST = '127.0.0.1';
+
 const client = dgram.createSocket('udp4');
 const roomId = "room1";
 
@@ -15,7 +18,7 @@ app.get('/', (req, res) => {
 
 // Send join room message
 const msg_join = roomId+" join";
-client.send(msg_join, 3000, 'localhost', (err) => {
+client.send(msg_join, PORT, HOST, (err) => {
     if (err) {
         console.error("Error sending message: ", err);
     }
@@ -28,7 +31,7 @@ io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
         // Send message to the UDP server
         const message = roomId+" "+msg;
-        client.send(message, 3000, 'localhost', (err) => {
+        client.send(message, PORT,HOST, (err) => {
             if (err) {
                 console.error("Error sending message: ", err);
             }
