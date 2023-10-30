@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Client</title>
+</head>
+<body>
+    <h1>Chat Room</h1>
+    <div id="chat-history">
+        <textarea rows="10" cols="50" id="chat-history-text" readonly></textarea>
+    </div>
+    <div id="user-input">
+        <input type="text" id="user-message" placeholder="Type your message">
+        <button id="send-button">Send</button>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const chatHistory = document.getElementById('chat-history-text');
+        const userMessageInput = document.getElementById('user-message');
+        const sendButton = document.getElementById('send-button');
+
+        // Receive messages from the server and display them
+        socket.on('chat message', (msg) => {
+            chatHistory.value += msg+"\n";
+        });
+
+        // Send messages when 'send' button is clicked
+        sendButton.addEventListener('click', () => {
+            const userMsg = userMessageInput.value;
+            if (userMsg.trim() !== "") {
+                socket.emit('chat message', userMsg);
+                userMessageInput.value = ""; // Clear the input field
+                
+                // Update the chat history
+                chatHistory.value += userMsg+"\n";
+            }
+        });
+    </script>
+</body>
+</html>
