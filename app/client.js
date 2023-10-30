@@ -1,20 +1,70 @@
 const dgram = require('node:dgram');
-const { Buffer } = require('node:buffer');
+const readline = require('readline');
 
-const prompt = require('prompt-sync')();
-
-//const msg = Buffer.from('test');
 const client = dgram.createSocket('udp4');
 
 const roomId = "room1";
 
-// receive message from another clients through the server
-client.on("message", (msg, _sender) => {
-    console.log("receive.");
-
-    console.log(`Recevied message from: ${_sender.address}:${_sender.port}: ${msg}`);
+// Receive message from another clients through the server
+client.on("message", (msg, _server) => {
+    console.log(`Received ${msg}`);
 })
 
+// Send join room message
+const msg_join = roomId+" join";
+client.send(msg_join, 3000, 'localhost', (err) => {
+    if (err) {
+        console.err("Error sending message: ", err);
+    }
+})
+
+// interface for reading user input
+const input = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
+
+function userinput() {
+    input.question("Enter ur message: ", (_msg) => {
+        if (_msg === 'exit') {
+            input.close();
+            client.close();
+        } else {
+            // Send msg
+            let msg = roomId+" "+_msg;
+            client.send(msg, 3000, 'localhost', (err) => {
+                if (err) {
+                    console.err("Error sending message: ", err);
+                }
+            })
+            userinput(); // Continue
+        }
+    })
+}
+
+userinput();
+
+/*
+client.connect(3000, 'localhost', async(err) => {
+    while (true) {
+        let msg = prompt("Enter ur message: ");
+        
+        if (msg == "exit") {
+            client.close();
+            break;
+        }
+
+        // send msg
+        client.send(roomId+" "+msg, (err) => {
+            if (err) {
+                console.err("Error sending message: ", err);
+            }
+        })
+    }
+})
+*/
+
+/*
 client.connect(3000, 'localhost', async(err) => {
     if (err) {
         console.log('Error connecting to the server: ', err);
@@ -44,3 +94,4 @@ client.connect(3000, 'localhost', async(err) => {
         })
     }
 })
+*/

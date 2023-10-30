@@ -29,16 +29,15 @@ server.on('message', (_msg, _sender) => {
         clients[roomId].forEach(client => {
             // Split the client string into address and port
             const [clientAddress, clientPort] = client.split(':');
-            console.log("client Address: ", clientAddress);
-            console.log("client Port: ",clientPort);
+
             // Check port and address to find the recipient
             if (parseInt(clientPort) !== _sender.port) {
-                server.send(_msg, parseInt(clientPort), clientAddress, (err) => {
+                server.send(`message from ${clientAddress}:${clientPort}> `+_msg, parseInt(clientPort), clientAddress, (err) => {
                     if (err) {
                         console.error(`Error sending message to ${clientAddress}:${clientPort}`);
                     }
                 })
-                console.log("sent")
+                console.log(`Sent ${clientAddress}:${clientPort}`)
             }
         })
     }
