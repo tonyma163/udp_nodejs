@@ -35,7 +35,7 @@ server.on('message', (_msg, _sender) => {
 
             // Check port and address to find the recipient
             if (parseInt(clientPort) !== _sender.port) {
-                server.send(`message from ${clientAddress}:${clientPort}> `+_msg, parseInt(clientPort), clientAddress, (err) => {
+                server.send(`message from ${_sender.address}:${_sender.port}> `+_msg, parseInt(clientPort), clientAddress, (err) => {
                     if (err) {
                         console.error(`Error sending message to ${clientAddress}:${clientPort}`);
                     }
