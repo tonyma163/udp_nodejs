@@ -12,13 +12,17 @@ client.on("message", (msg, _server) => {
     console.log(`Received ${msg}`);
 })
 
-// Send join room message
+client.connect(PORT, HOST, (err) => {
+    // Send join room message
 const msg_join = roomId+" join";
-client.send(msg_join, PORT, HOST, (err) => {
+//client.send(msg_join, PORT, HOST, (err) => {
+    client.send(msg_join, (err) => {
     if (err) {
         console.err("Error sending message: ", err);
     }
 })
+})
+
 
 // Interface for reading user input
 const input = readline.createInterface({
@@ -34,7 +38,8 @@ function userinput() {
         } else {
             // Send msg
             let msg = roomId+" "+_msg;
-            client.send(msg, PORT, HOST, (err) => {
+            //client.send(msg, PORT, HOST, (err) => {
+                client.send(msg, (err) => {
                 if (err) {
                     console.err("Error sending message: ", err);
                 }
